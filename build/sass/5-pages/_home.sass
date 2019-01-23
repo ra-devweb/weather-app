@@ -1,8 +1,46 @@
-.header
+.content 
+    @include abcenter
+    background-color: rgba($color-primary-medium, .8)
+    border-radius: .5rem
+    box-shadow: 0 1.5rem 4rem rgba($color-black, .2)
+    width: 80%
+    height: 60%
+    text-align: center
 
-    &__head
+    &__body
+        width: 50%;
+        float: left;
+        padding: 5rem
 
-        h1 
-            color: $color-primary-dark
-            transform: translateX(20rem)
-            display: flex
+        span 
+            display: block
+            font-size: ($default-font-size + 1rem)
+
+        img 
+            height: 150px
+            width: 150px
+
+    &__body
+        width: 50%
+        float: left
+        padding: 5rem
+
+        ul 
+            list-style: none
+            li 
+                background-color: rgba($color-grey-light-2, .5)
+                border-radius: .5rem
+                padding: ($default-font-size - .5rem)
+
+        &::after
+            content: ""
+            display: table
+            clear: both
+
+            
+            
+
+.icon-vase
+    position: absolute
+    bottom: 0px;
+    right: 0px;
