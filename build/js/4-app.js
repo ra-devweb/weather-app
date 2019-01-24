@@ -1,7 +1,1 @@
-// app
-
-(function () {
-
-    console.log('hello');
-
-})();
+// App Init

@@ -4,13 +4,16 @@
     border-radius: .5rem
     box-shadow: 0 1.5rem 4rem rgba($color-black, .2)
     width: 80%
-    height: 60%
-    text-align: center
+    @media (max-width: 750px) 
+        height: 60%
+        overflow-y: scroll
 
-    &__body
-        width: 50%;
-        float: left;
-        padding: 5rem
+    &__head
+        padding-top: 2rem
+        text-align: center
+
+        span:first-child 
+            font-weight: bold
 
         span 
             display: block
@@ -20,17 +23,18 @@
             height: 150px
             width: 150px
 
-    &__body
-        width: 50%
-        float: left
-        padding: 5rem
+    &__footer
+        text-align: center
 
         ul 
             list-style: none
-            li 
-                background-color: rgba($color-grey-light-2, .5)
-                border-radius: .5rem
-                padding: ($default-font-size - .5rem)
+            background-color: rgba($color-grey-light-2, .5)
+            border-radius: .5rem
+            margin: 5rem auto
+
+        li 
+            padding: .5rem 0
+                
 
         &::after
             content: ""

@@ -27,9 +27,9 @@ gulp.task('js', () => {
 
     return gulp.src('build/js/*.js')
             .pipe(sourcemaps.init())
-            .pipe(babel({
-                presets: ['@babel/env']
-            }))
+            // .pipe(babel({
+            //     presets: ['@babel/env']
+            // }))
             .pipe(concat('main.js'))
             .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest('dist/js'));
