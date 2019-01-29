@@ -2,38 +2,24 @@
 
 class Weather {
 
-    constructor() {
+    constructor(city) {
 
-        this.apiKey     =   '7f8eaa6b284ee7c54b51277a130790c5';
-        this.location   =   '37.8267,-122.4233';
+        this.apiKey     =   '0b8274ecac16484e9f9003f527449ec6';
+        this.city       =   city;
     }
 
-    async get() {
+    async getWeather() {
 
-        const response =  await  fetch(`https://api.darksky.net/forecast/${this.apiKey}/${this.location}`);
+        const response =  await  fetch(`https://api.weatherbit.io/v2.0/current?city=${this.city}&key=${this.apiKey}`);
 
         const responseData  =   await response.json();
 
-        return responseData;
+        return responseData.data[0];
 
     }
 
+    changeLocation(city) {
+        this.city   =   city;
+    }
+
 }
-
-const call  =   new Weather;
-
-call.get()
-    .then( data => {
-
-        // let output   =   '';
-
-        // data.forEach(title => {
-        //     output  += `
-        //         <li>${title}</li>
-        //     `;
-        // });
-
-        // document.getElementById('result').innerHTML =   output;
-
-        console.log(data);
-    });

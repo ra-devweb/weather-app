@@ -4,7 +4,6 @@ var     gulp  =   require('gulp'),
         sass = require('gulp-sass'),
         sourcemaps = require('gulp-sourcemaps'),
         img = require('gulp-imagemin'),
-        babel = require('gulp-babel'),
         autoprefixer = require('gulp-autoprefixer');
 
 sass.compiler = require('node-sass');
@@ -27,9 +26,6 @@ gulp.task('js', () => {
 
     return gulp.src('build/js/*.js')
             .pipe(sourcemaps.init())
-            // .pipe(babel({
-            //     presets: ['@babel/env']
-            // }))
             .pipe(concat('main.js'))
             .pipe(sourcemaps.write('.'))
             .pipe(gulp.dest('dist/js'));
