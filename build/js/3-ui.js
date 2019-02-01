@@ -18,7 +18,7 @@ class UI {
     print(weather) {
         this.location.textContent   =   weather.city_name;
         this.desc.textContent       =   weather.weather.description;
-        this.string.textContent     =   weather.temp;
+        this.string.textContent     =   weather.temp + ' °';
         this.icon.setAttribute('src', 'https://www.weatherbit.io/static/img/icons/' + weather.weather.icon + '.png');
         this.humidity.textContent   =   `Relative humidity: ${weather.rh}`;
         this.feelsLike.textContent   =   `Feels like: ${weather.app_temp}`;

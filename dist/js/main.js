@@ -3,16 +3,18 @@
 
 class Weather {
 
-    constructor(city) {
+    constructor(lat = '32.8808789', lon = '-6.9523989', city) {
 
         this.apiKey     =   '0b8274ecac16484e9f9003f527449ec6';
+        this.lat        =   lat;
+        this.lon        =   lon;
         this.city       =   city;
     }
 
     async getWeather() {
 
-        const response =  await  fetch(`https://api.weatherbit.io/v2.0/current?city=${this.city}&key=${this.apiKey}`);
-
+        const response =  await  fetch(`https://api.weatherbit.io/v2.0/current?${!this.city ? '&lat=' + this.lat + '&lon=' + this.lon : 'city=' + this.city}&key=${this.apiKey}`);
+ 
         const responseData  =   await response.json();
 
         return responseData.data[0];
@@ -20,7 +22,8 @@ class Weather {
     }
 
     changeLocation(city) {
-        this.city   =   city;
+
+        this.city       =   city;
     }
 
 }
@@ -44,7 +47,7 @@ class UI {
     print(weather) {
         this.location.textContent   =   weather.city_name;
         this.desc.textContent       =   weather.weather.description;
-        this.string.textContent     =   weather.temp;
+        this.string.textContent     =   weather.temp + ' °';
         this.icon.setAttribute('src', 'https://www.weatherbit.io/static/img/icons/' + weather.weather.icon + '.png');
         this.humidity.textContent   =   `Relative humidity: ${weather.rh}`;
         this.feelsLike.textContent   =   `Feels like: ${weather.app_temp}`;
@@ -54,9 +57,26 @@ class UI {
     }
 
 }
+// Get the geolocation
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+} else { 
+    console.log('Geolocation is not supported by this browser.');
+}
+
+function showPosition(position) {
+
+    let lat = position.coords.latitude,
+        lon = position.coords.longitude;
+
+    console.log(lat, lon)
+
+}
+
 // App weather Init
 
-const weather  =   new Weather('new york');
+const weather  =   new Weather();
 
 // UI init
 
@@ -68,20 +88,14 @@ const ui       =   new UI;
 
 document.addEventListener('DOMContentLoaded', getWeather);
 
-function getWeather() {
-    weather.getWeather()
-        .then( data => {
+    function getWeather() {
+        weather.getWeather()
+            .then( data => {
+                    
+                ui.print(data);
 
-            let output   = `
-
-                <li>${ui.print(data)}</li>
-
-            `;
-
-            result =   output;
-
-            console.log(data);
-        })
-        .catch(err => console.log(err));
+                console.log(data);
+            })
+            .catch(err => console.log(err));
 }
 //# sourceMappingURL=main.js.map
