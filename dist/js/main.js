@@ -95,27 +95,27 @@ class UI {
     }
 
 }
-// Init the lambda
+// Load the dom content
 
-const getIdAndSecretKeys    =  async () => {
+document.addEventListener('DOMContentLoaded', loadFunction);
 
-    const response  =   await fetch('/.netlify/functions/var');
+function loadFunction() {
 
-    const resIdSecret   =  await response.json();
-    
-    // Set the variable key
+    // Init the lambda
 
-    const apiKey    =   resIdSecret.id;
+    const getIdAndSecretKeys    =  async () => {
 
-    // Init get ip adress
+        const response  =   await fetch('/.netlify/functions/var');
 
-    const  ip =  new IP;
+        const resIdSecret   =  await response.json();
+        
+        // Set the variable key
 
-    // Load the dom content
+        const apiKey    =   resIdSecret.id;
 
-    document.addEventListener('DOMContentLoaded', loadFunction);
+        // Init get ip adress
 
-    function loadFunction() {
+        const  ip =  new IP;
 
         ip.getIpAdress()
             .then(data => {
@@ -170,8 +170,8 @@ const getIdAndSecretKeys    =  async () => {
             })
 
     }
-    
-}
 
-getIdAndSecretKeys();
+    getIdAndSecretKeys();
+
+}
 //# sourceMappingURL=main.js.map
