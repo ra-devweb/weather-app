@@ -34,8 +34,6 @@ function loadFunction() {
 
                 const weather  =   new Weather(apiKey, data.ip, locationData.city);
 
-                console.log(weather)
-
                 // UI init
 
                 const ui       =   new UI;
