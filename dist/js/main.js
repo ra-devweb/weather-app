@@ -95,6 +95,19 @@ class UI {
     }
 
 }
+const getIdAndSecretKeys    =  async () => {
+
+    const response  =   await fetch('/.netlify/functions/var');
+
+    const resIdSecret   =  await response.json();
+    
+    // Init class Github
+
+    console.log(resIdSecret)
+}
+
+getIdAndSecretKeys();
+
 // Init get ip adress
 
 const  ip =  new IP;
