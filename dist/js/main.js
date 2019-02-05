@@ -1,19 +1,57 @@
+// get ip adress
+
+class IP {
+
+    async getIpAdress () {
+
+        const response   =   await fetch('https://api.ipify.org/?format=json');
+
+        const respondeData  =   await response.json();
+
+        return respondeData;
+
+    }
+}
 // storage
+
+class Store {
+
+    constructor () {
+        this.city;
+    }
+
+    getLocationData() {
+        if(localStorage.getItem('City')   === null) {
+
+            this.city   =   '';
+        } else {
+            this.city   =   localStorage.getItem('City');
+        }
+
+        return {
+            city:   this.city
+        }
+    }
+
+    setLocationData(city) {
+        localStorage.setItem('City', city);
+    }
+
+}
 // Weather Api
 
 class Weather {
 
-    constructor(lat = '32.8808789', lon = '-6.9523989', city) {
+    constructor(ip, city) {
 
         this.apiKey     =   '0b8274ecac16484e9f9003f527449ec6';
-        this.lat        =   lat;
-        this.lon        =   lon;
+        this.ip         =   ip;
         this.city       =   city;
     }
 
     async getWeather() {
 
-        const response =  await  fetch(`https://api.weatherbit.io/v2.0/current?${!this.city ? '&lat=' + this.lat + '&lon=' + this.lon : 'city=' + this.city}&key=${this.apiKey}`);
+        const response =  await  fetch(`https://api.weatherbit.io/v2.0/current?${!this.city ? '&ip=' + this.ip : 'city=' + this.city}&key=${this.apiKey}`);
  
         const responseData  =   await response.json();
 
@@ -45,57 +83,79 @@ class UI {
     }
 
     print(weather) {
-        this.location.textContent   =   weather.city_name;
+        this.location.textContent   =   weather.city_name + ', ' + weather.country_code;
         this.desc.textContent       =   weather.weather.description;
         this.string.textContent     =   weather.temp + ' °';
         this.icon.setAttribute('src', 'https://www.weatherbit.io/static/img/icons/' + weather.weather.icon + '.png');
-        this.humidity.textContent   =   `Relative humidity: ${weather.rh}`;
-        this.feelsLike.textContent   =   `Feels like: ${weather.app_temp}`;
-        this.dewpoint.textContent   =   `Dew point : ${weather.dewpt}`;
-        this.wind.textContent   =   `Wind: ${weather.wind_cdir_full}`;
-        this.clouds.textContent   =   `Clouds: ${weather.clouds}`;
+        this.humidity.textContent   =   `Relative humidity: ${weather.rh} %`;
+        this.feelsLike.textContent   =   `Feels like: ${weather.app_temp} F`;
+        this.dewpoint.textContent   =   `Dew point : ${weather.dewpt} F`;
+        this.wind.textContent   =   `Wind: From the ${weather.wind_cdir} at ${weather.wind_dir} MPH Gusting to ${weather.wind_spd} MPH`;
+        this.clouds.textContent   =   `Clouds: ${weather.clouds} %`;
     }
 
 }
-// Get the geolocation
+// Init get ip adress
 
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-} else { 
-    console.log('Geolocation is not supported by this browser.');
-}
+const  ip =  new IP;
 
-function showPosition(position) {
+// Load the dom content
 
-    let lat = position.coords.latitude,
-        lon = position.coords.longitude;
+document.addEventListener('DOMContentLoaded', loadFunction);
 
-    console.log(lat, lon)
+function loadFunction() {
 
-}
+    ip.getIpAdress()
+        .then(data => {
+            // init store
 
-// App weather Init
+            const store =   new Store;
 
-const weather  =   new Weather();
+            // Get store data
 
-// UI init
+            const locationData  =   store.getLocationData();
 
-const ui       =   new UI;
+            // App weather Init
 
-//weather.changeLocation('miami');
+            const weather  =   new Weather(data.ip, locationData.city);
 
-// Get dom on DOM load
+            // UI init
 
-document.addEventListener('DOMContentLoaded', getWeather);
+            const ui       =   new UI;
 
-    function getWeather() {
-        weather.getWeather()
-            .then( data => {
-                    
-                ui.print(data);
+            // Get from form city
 
-                console.log(data);
+            document.querySelector('.box-field__form').addEventListener('submit', e => {
+
+                const  city =   document.querySelector('.box-field__form')['input-field'].value;
+
+                // Change location
+
+                weather.changeLocation(city);
+
+                // Set location
+
+                store.setLocationData(city);
+
+                getWeather();
+
+                document.getElementById('input-field').value  =   '';
+
+                e.preventDefault();
             })
-            .catch(err => console.log(err));
+
+
+
+            // Get weather data from the api
+
+            weather.getWeather()
+                .then( data => {
+                        
+                    ui.print(data);
+
+                })
+                .catch(err => console.log(err));
+        })
+
 }
 //# sourceMappingURL=main.js.map

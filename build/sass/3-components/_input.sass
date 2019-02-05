@@ -1,0 +1,24 @@
+.box-field
+    position: fixed
+    top: 30px
+    left: 500px
+    z-index: 9999
+    @media (max-width: 750px) 
+        left: 30px
+        text-align: center
+
+    &__input 
+        margin-right: 1rem  !important
+        padding: 2rem  !important
+        border: 0  !important
+        @media (max-width: 750px)
+            margin-right: 0 !important
+            padding: 1rem !important
+
+    &__submit
+        border-color: $color-primary-medium !important
+        border-width: 3px !important
+        line-height: 0 !important
+        border-radius: 5px !important
+        letter-spacing: 3px !important
+        color: $color-primary-medium !important

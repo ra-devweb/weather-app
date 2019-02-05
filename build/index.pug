@@ -8,6 +8,11 @@ html(lang="en")
         title Weather Application Web
     body
 
+        section.box-field
+            form.box-field__form
+                input(type="text" class="box-field__input" id="input-field" placeholder="Search by city")
+                input(type="submit" value="Submit" class="box-field__submit")
+
         section.content
 
             .container 
@@ -30,7 +35,6 @@ html(lang="en")
 
         .icon-vase
             img(src="img/icon-vase.svg", alt="vase")
-
 
 
         script(src="js/main.js")

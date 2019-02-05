@@ -1,41 +1,63 @@
-// Get the geolocation
+// Init get ip adress
 
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
-} else { 
-    console.log('Geolocation is not supported by this browser.');
-}
+const  ip =  new IP;
 
-function showPosition(position) {
+// Load the dom content
 
-    let lat = position.coords.latitude,
-        lon = position.coords.longitude;
+document.addEventListener('DOMContentLoaded', loadFunction);
 
-    console.log(lat, lon)
+function loadFunction() {
 
-}
+    ip.getIpAdress()
+        .then(data => {
+            // init store
 
-// App weather Init
+            const store =   new Store;
 
-const weather  =   new Weather();
+            // Get store data
 
-// UI init
+            const locationData  =   store.getLocationData();
 
-const ui       =   new UI;
+            // App weather Init
 
-//weather.changeLocation('miami');
+            const weather  =   new Weather(data.ip, locationData.city);
 
-// Get dom on DOM load
+            // UI init
 
-document.addEventListener('DOMContentLoaded', getWeather);
+            const ui       =   new UI;
 
-    function getWeather() {
-        weather.getWeather()
-            .then( data => {
-                    
-                ui.print(data);
+            // Get from form city
 
-                console.log(data);
+            document.querySelector('.box-field__form').addEventListener('submit', e => {
+
+                const  city =   document.querySelector('.box-field__form')['input-field'].value;
+
+                // Change location
+
+                weather.changeLocation(city);
+
+                // Set location
+
+                store.setLocationData(city);
+
+                getWeather();
+
+                document.getElementById('input-field').value  =   '';
+
+                e.preventDefault();
             })
-            .catch(err => console.log(err));
+
+
+
+            // Get weather data from the api
+
+            weather.getWeather()
+                .then( data => {
+                        
+                    ui.print(data);
+
+                })
+                .catch(err => console.log(err));
+        })
+
 }

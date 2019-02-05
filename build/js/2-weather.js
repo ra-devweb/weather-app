@@ -2,17 +2,16 @@
 
 class Weather {
 
-    constructor(lat = '32.8808789', lon = '-6.9523989', city) {
+    constructor(ip, city) {
 
         this.apiKey     =   '0b8274ecac16484e9f9003f527449ec6';
-        this.lat        =   lat;
-        this.lon        =   lon;
+        this.ip         =   ip;
         this.city       =   city;
     }
 
     async getWeather() {
 
-        const response =  await  fetch(`https://api.weatherbit.io/v2.0/current?${!this.city ? '&lat=' + this.lat + '&lon=' + this.lon : 'city=' + this.city}&key=${this.apiKey}`);
+        const response =  await  fetch(`https://api.weatherbit.io/v2.0/current?${!this.city ? '&ip=' + this.ip : 'city=' + this.city}&key=${this.apiKey}`);
  
         const responseData  =   await response.json();
 
